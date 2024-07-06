@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 
-function TitelSingUp(){
+function TitelSingIn(){
   return(
     <View style={styles.container}>
       <Text style={styles.logo}>SmartWallet</Text>
-      <Text style={styles.h1}>Olá, seja bem vindo!</Text>
-      <Text style={styles.h2}>Vamos melhorar o seu controle financeiro!</Text>
-      <Text style={styles.h1Especial}>Cadastre-se</Text>
+      <Text style={styles.h1}>Olá,</Text>
+      <Text style={styles.h1Extra}>Como foi o dia hoje?</Text>
+      <Text style={styles.h2}>Entra na sua conta, vamos se organizar!</Text>
     </View>
   )
 }
@@ -27,9 +27,15 @@ const styles = StyleSheet.create({
 
   h1: {
     color: 'white',
-    fontSize: 32,
+    fontSize: 42,
     textAlign: 'center',
     marginTop: 20,
+  },
+
+  h1Extra:{
+    color: 'white',
+    fontSize: 32,
+    textAlign: 'center',
   },
 
   h2: {
@@ -49,4 +55,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TitelSingUp;
+export default TitelSingIn;

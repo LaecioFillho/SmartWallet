@@ -57,13 +57,12 @@ export function useProductDatabase() {
     }
   }
 
-  async function verifyUser(email: string, password: string) {
+  async function verifyUser(email: string) {
     try {
-      const query = "SELECT * FROM userWallett WHERE email LIKE ?"
+      const query = "SELECT * FROM RegisterUser WHERE email LIKE ?"
 
-      const response = await database.getFirstAsync<userWallet>(query, [
+      const response = await database.getAllAsync<userWallet>(query, [
         `%${email}%`,
-        `%${password}%`,
       ])
 
       return response
@@ -77,8 +76,9 @@ export function useProductDatabase() {
       const query = "SELECT * FROM products WHERE name LIKE ?"
 
       const response = await database.getAllAsync<ProductDatabase>(
-        query,
-        `%${name}%`
+        query,[
+        `%${name}%
+        `]
       )
 
       return response

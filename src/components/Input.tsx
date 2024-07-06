@@ -7,8 +7,9 @@ export function Input({ ...rest }: TextInputProps) {
         height: 54,
         borderWidth: 1,
         borderRadius: 7,
-        borderColor: "#999",
+        borderColor: "white",
         paddingHorizontal: 16,
+        color: 'white',
       }}
       {...rest}
     />

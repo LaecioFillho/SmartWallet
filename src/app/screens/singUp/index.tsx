@@ -80,38 +80,37 @@ function SingUp(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#7A6D31',
+    backgroundColor: '#494d4b',
     padding: 20,
-    justifyContent: 'center',
     gap: 15,
   },
 
   titleInput: {
-    color: '#162E25',
-    fontSize: 18,
+    color: '#f0e2be',
+    fontSize: 16,
   },
 
   btnOne:{
     alignSelf: 'center',
     width: 320,
-    backgroundColor: 'green',
-    padding: 16,
+    backgroundColor: 'gray',
+    padding: 11,
     borderRadius: 25,
-    marginTop: 5,
   },
 
   btnTwo:{
     alignSelf: 'center',
     width: 320,
     borderWidth: 1,
-    padding: 15,
+    borderColor: 'white',
+    padding: 10,
     borderRadius: 25,
   },
 
   btnText: {
-    color: '#162E25',
+    color: '#f0e2be',
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: 20,
   },
 })
 

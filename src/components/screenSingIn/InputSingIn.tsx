@@ -1,6 +1,6 @@
 import { TextInput, TextInputProps } from "react-native";
 
-function InputSingUp({ ...rest }: TextInputProps) {
+function InputSingIn({ ...rest }: TextInputProps) {
   return (
       <TextInput
         style={{
@@ -17,4 +17,4 @@ function InputSingUp({ ...rest }: TextInputProps) {
   )
 }
 
-export default InputSingUp;
+export default InputSingIn;
