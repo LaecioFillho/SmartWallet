@@ -1,12 +1,17 @@
+import { FontAwesome, Fontisto } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 
 function TitelSingUp(){
   return(
     <View style={styles.container}>
+      <Fontisto style={styles.iconLogo} name="wallet" size={32}/>
       <Text style={styles.logo}>SmartWallet</Text>
       <Text style={styles.h1}>Olá, seja bem vindo!</Text>
       <Text style={styles.h2}>Vamos melhorar o seu controle financeiro!</Text>
-      <Text style={styles.h1Especial}>Cadastre-se</Text>
+      <Text
+        style={styles.h1Especial}>
+          Cadastre-se <FontAwesome name="user-plus" size={28}/>
+      </Text>
     </View>
   )
 }
@@ -19,10 +24,16 @@ const styles = StyleSheet.create({
 
   logo: {
     fontSize: 46,
-    marginTop: 45,
     marginBottom: 15,
     textAlign: 'center',
-    color: '#e2cb92',
+    color: '#25f586',
+  },
+
+  iconLogo: {
+    fontSize: 46,
+    textAlign: 'center',
+    color: '#25f586',
+    marginTop: 15,
   },
 
   h1: {
@@ -33,7 +44,7 @@ const styles = StyleSheet.create({
   },
 
   h2: {
-    color: '#f0e2be',
+    color: 'white',
     fontSize: 20,
     textAlign: 'center',
     paddingTop: 5,
@@ -42,10 +53,10 @@ const styles = StyleSheet.create({
   },
 
   h1Especial: {
-    color: '#f0e2be',
+    color: 'white',
     fontSize: 32,
     textAlign: 'center',
-    textDecorationLine: 'underline',
+
   },
 })
 

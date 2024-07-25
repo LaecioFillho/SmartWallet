@@ -6,6 +6,7 @@ import { router } from "expo-router";
 import TitelSingUp from "@/components/screenSingUp/TitleSingUp";
 import InputSingUp from "@/components/screenSingUp/InputSingUp";
 import PasswordIncorr from "@/components/screenSingUp/PasswordIncorr";
+import { FontAwesome } from "@expo/vector-icons";
 
 function SingUp(){
   const [email, setUserEmail] = useState('');
@@ -38,6 +39,7 @@ function SingUp(){
       <Text style={styles.titleInput}>Email:</Text>
       <InputSingUp
         placeholder="Digite seu email..."
+        placeholderTextColor={'gray'}
         onChangeText={setUserEmail}
         value={email}
       />
@@ -46,6 +48,7 @@ function SingUp(){
       <InputSingUp
         secureTextEntry
         placeholder="Digite sua senha..."
+        placeholderTextColor={'gray'}
         onChangeText={setUserPassword}
         value={password}
       />
@@ -54,6 +57,7 @@ function SingUp(){
       <InputSingUp
         secureTextEntry
         placeholder="Repita a senha digitada acima..."
+        placeholderTextColor={'gray'}
         onChangeText={setPasswordIdent}
         value={passwordIdent}
       />
@@ -64,7 +68,7 @@ function SingUp(){
         style={styles.btnOne}
         onPress={handleSaveUser}
       >
-      <Text style={styles.btnText}>Cadastrar</Text>
+      <Text style={styles.btnText}><FontAwesome name="user-plus" size={20}/> Cadastrar</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -80,20 +84,20 @@ function SingUp(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#494d4b',
+    backgroundColor: '#011f11',
     padding: 20,
-    gap: 15,
+    gap: 10,
   },
 
   titleInput: {
-    color: '#f0e2be',
+    color: 'white',
     fontSize: 16,
   },
 
   btnOne:{
     alignSelf: 'center',
     width: 320,
-    backgroundColor: 'gray',
+    backgroundColor: '#02BF5A',
     padding: 11,
     borderRadius: 25,
   },
@@ -108,7 +112,7 @@ const styles = StyleSheet.create({
   },
 
   btnText: {
-    color: '#f0e2be',
+    color: 'white',
     textAlign: 'center',
     fontSize: 20,
   },

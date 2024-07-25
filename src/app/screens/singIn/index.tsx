@@ -4,11 +4,12 @@ import { router } from "expo-router";
 import TitelSingIn from "@/components/screenSingIn/TitleSingIn";
 import InputSingIn from "@/components/screenSingIn/InputSingIn";
 import { useProductDatabase, userWallet } from "@/database/useProductDatabase";
+import { AntDesign, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 function SingIn(){
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [validEmail, setValidEmail] = useState('');
+  const [validEmail, setValidEmail] = useState();
   const [validPass, setValidPass] = useState('');
   const userDatabase = useProductDatabase()
 
@@ -32,25 +33,33 @@ function SingIn(){
       <TitelSingIn />
 
       <View style={styles.containerTwo}>
-          <Text style={styles.titleInput}>Email:</Text>
+          <Text
+            style={styles.titleInput}>
+              <MaterialCommunityIcons name="email" size={18}/> Email:
+          </Text>
           <InputSingIn
             placeholder="Digite seu email..."
+            placeholderTextColor={'gray'}
             onChangeText={setUserEmail}
             value={userEmail}
           />
 
-          <Text style={styles.titleInput}>Senha:</Text>
+          <Text
+            style={styles.titleInput}><MaterialCommunityIcons name="onepassword" size={18}/> Senha:
+          </Text>
           <InputSingIn
             placeholder="Digite sua Senha..."
+            placeholderTextColor={'gray'}
             onChangeText={setUserPassword}
             value={userPassword}
           />
 
           <TouchableOpacity
             style={styles.btnOne}
-            onPress={handleSingIn}
+            onPress={() => router.navigate("/screens/home")}
           >
-            <Text style={styles.btnText}>Entrar</Text>
+
+            <Text style={styles.btnText}><AntDesign name="login" size={20}/> Entrar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -67,7 +76,7 @@ function SingIn(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#494d4b',
+    backgroundColor: '#011f11',
     padding: 15,
     gap: 15,
   },
@@ -81,15 +90,16 @@ const styles = StyleSheet.create({
   },
 
   titleInput: {
-    color: '#f0e2be',
+    color: 'white',
     fontSize: 16,
+    alignItems: 'center',
   },
 
   btnOne:{
     marginTop: 30,
     alignSelf: 'center',
     width: 320,
-    backgroundColor: 'gray',
+    backgroundColor: '#02BA58',
     padding: 11,
     borderRadius: 25,
   },
@@ -104,7 +114,7 @@ const styles = StyleSheet.create({
   },
 
   btnText: {
-    color: '#f0e2be',
+    color: 'white',
     textAlign: 'center',
     fontSize: 20,
   },

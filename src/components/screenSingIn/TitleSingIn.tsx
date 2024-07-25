@@ -1,8 +1,10 @@
+import { Fontisto } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 
 function TitelSingIn(){
   return(
     <View style={styles.container}>
+      <Fontisto style={styles.iconLogo} name="wallet" size={32}/>
       <Text style={styles.logo}>SmartWallet</Text>
       <Text style={styles.h1}>Olá,</Text>
       <Text style={styles.h1Extra}>Como foi o dia hoje?</Text>
@@ -19,17 +21,23 @@ const styles = StyleSheet.create({
 
   logo: {
     fontSize: 46,
-    marginTop: 45,
     marginBottom: 15,
     textAlign: 'center',
-    color: '#e2cb92',
+    color: '#25f586',
+  },
+
+  iconLogo: {
+    fontSize: 46,
+    textAlign: 'center',
+    color: '#25f586',
+    marginTop: 30,
   },
 
   h1: {
     color: 'white',
     fontSize: 42,
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
 
   h1Extra:{
@@ -39,16 +47,15 @@ const styles = StyleSheet.create({
   },
 
   h2: {
-    color: '#f0e2be',
+    color: 'white',
     fontSize: 20,
     textAlign: 'center',
     paddingTop: 5,
-    paddingBottom: 5,
-    marginBottom: 5,
+    marginBottom: 65,
   },
 
   h1Especial: {
-    color: '#f0e2be',
+    color: 'white',
     fontSize: 32,
     textAlign: 'center',
     textDecorationLine: 'underline',

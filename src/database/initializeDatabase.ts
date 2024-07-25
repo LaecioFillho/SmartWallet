@@ -13,5 +13,11 @@ export async function initializeDatabase(database: SQLiteDatabase) {
       email TEXT NOT NULL,
       password TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS RegisterCategory (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      description TEXT NOT NULL
+    );
+
   `)
 }
