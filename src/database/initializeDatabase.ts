@@ -19,5 +19,14 @@ export async function initializeDatabase(database: SQLiteDatabase) {
       description TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS Releases (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      description VARCHAR(255) NOT NULL,
+      date DATE NOT NULL,
+      value DECIMAL(10, 2) NOT NULL,
+      category TEXT NOT NULL,
+      total DECIMAL(10, 2)
+    );
+
   `)
 }

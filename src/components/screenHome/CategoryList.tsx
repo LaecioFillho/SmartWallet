@@ -1,29 +1,43 @@
+import { createCategories, useProductDatabase } from "@/database/useProductDatabase";
 import { FontAwesome } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
 function CategoryList(){
 
-  const categorias = [
-    {id: '1', color: 'green', description: 'Alimentação', amount: 200.55},
-    {id: '2', color: 'blue', description: 'Combustivel', amount: 300.55},
-    {id: '3', color: 'red', description: 'Contas Fixas', amount: 100.45},
-    {id: '4', color: 'gray', description: 'Internet/Telefone ', amount: 40.25},
-    {id: '5', color: 'yellow', description: 'Aluguel', amount: 500.00},
-  ];
+  const categoriesDataBase = useProductDatabase();
+  const [releaseas, setReleaseas] = useState<createCategories[]>([]);
+  const [search, setSearch] = useState("");
+
+  async function list() {
+    try {
+      const response = await categoriesDataBase.searchBCategory(search)
+      setReleaseas(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    list()
+  }, [search])
 
   return(
     <View style={styles.container}>
       <Text style={styles.h1}>Categorias</Text>
 
       <FlatList
-        data={categorias}
-        keyExtractor={item => item.id}
+        data={releaseas}
+        keyExtractor={item => String(item.id)}
         renderItem={({item}) =>
           <View style={styles.categories}>
             <Text style={styles.p}>
-              <FontAwesome style={styles.icon} name="circle"color={item.color}/>  {item.description}
+              <FontAwesome
+                style={styles.icon}
+                name="circle"
+                color={('#' + ((Math.random() * 0xffffff) << 0).toString(8) + '000000').slice(0, 4)}/> - {item.description}
             </Text>
-            <Text style={styles.p}>- R$ {item.amount}</Text>
+            <Text style={styles.p}>- R$ {item.total}</Text>
           </ View>}
       />
     </View>

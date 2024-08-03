@@ -10,40 +10,40 @@ function ListCategory(){
   const [add, setAdd] = useState(styles.none)
   const [addCategories, setAddCategories] = useState(styles.none)
   const [buttonEdit, setButtonEdit] = useState('pen-to-square')
-  let display = false
+  let display = true
 
   const categoryDataBase = useProductDatabase();
-  const [id, setId] = useState();
   const [dataCategory, setDataCategory] = useState("");
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<createCategories[]>([]);
 
   function handleEdit(){
-    if(display == false){
+    if(display == true){
       setEdit(styles.iconsEdit);
       setAdd(styles.iconAdd);
       setButtonEdit('check');
+      display = false;
     }else{
       setEdit(styles.none);
       setAdd(styles.none);
       setButtonEdit('pen-to-square');
     }
-    display = true;
   };
 
   async function handleSave() {
     try {
       const response = await categoryDataBase.createCategory(dataCategory)
-      alert("Categoria -"+ dataCategory +"- cadastrada com sucesso!")
+      alert("Categoria:"+ dataCategory +", cadastrada com sucesso!")
       list();
-      closeAddCategory()
+      closeAddCategory();
       setEdit(styles.none);
       setAdd(styles.none);
       setButtonEdit('pen-to-square');
+      setDataCategory('');
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   async function list() {
     try {
@@ -101,7 +101,7 @@ function ListCategory(){
           </Text>
           <InputAddCatgory
             onChangeText={setDataCategory}
-            />
+            value={dataCategory}/>
           <Text style={styles.space}></Text>
           <TouchableOpacity
             style={styles.btnAddCetegories}

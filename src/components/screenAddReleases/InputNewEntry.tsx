@@ -12,6 +12,7 @@ function InputNewEntry({ ...rest }: TextInputProps) {
           fontSize: 18,
           color: 'white',
           marginHorizontal: 20,
+          textAlign: 'center',
         }}
         {...rest}
       />

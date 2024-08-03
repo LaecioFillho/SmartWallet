@@ -15,11 +15,22 @@ export type userWallet = {
 export type createCategories = {
   id: number
   description: string
+  total: number
+}
+
+export type Releases = {
+  id: number
+  description: string
+  date: string
+  value: number
+  category: string
+  total: number
 }
 
 export function useProductDatabase() {
   const database = useSQLiteContext()
 
+//Registro de Categorias
   async function createCategory(description: string) {
     const statement = await database.prepareAsync(
       "INSERT INTO RegisterCategory (description) VALUES ($description)"
@@ -57,6 +68,62 @@ export function useProductDatabase() {
       throw error
     }
   }
+
+  async function updateTotalRelease(total: number, description: string) {
+    const statement = await database.prepareAsync(
+      "UPDATE RegisterCategory SET total = $total WHERE description = $description"
+    )
+    try {
+      await statement.executeAsync({$total: total,})
+    } catch (error) {
+      throw error
+    } finally {
+      await statement.finalizeAsync()
+    }
+  }
+
+//Registro de Compras/Lançamentos
+  async function createRelease(description: string, date: string, value: number, category: string) {
+    const statement = await database.prepareAsync(
+      "INSERT INTO Releases (description, date, value, category) VALUES ($description, $date, $value, $category)"
+    )
+    try {
+      const result = await statement.executeAsync({
+        $description: description,
+        $date: date,
+        $value: value,
+        $category: category,
+      })
+      const insertedRowId = result.lastInsertRowId.toLocaleString()
+      return { insertedRowId }
+    } catch (error) {
+      throw error
+    } finally {
+      await statement.finalizeAsync()
+    }
+  }
+
+  async function searchByRelease(description: string) {
+    try {
+      const query = "SELECT * FROM Releases WHERE description LIKE ?"
+
+      const response = await database.getAllAsync<Releases>(
+        query,[`%${description}%`]
+      )
+      return response
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function removeRelease(id: number) {
+    try {
+      await database.execAsync("DELETE FROM Releases WHERE id = " + id)
+    } catch (error) {
+      throw error
+    }
+  }
+
 
 
 
@@ -174,5 +241,13 @@ export function useProductDatabase() {
     }
   }
 
-  return { createCategory, searchBCategory, removeCategory, create, searchByName, update, remove, show, verifyUser, createUser }
+  return {
+    createCategory,
+    searchBCategory,
+    removeCategory,
+    createRelease,
+    searchByRelease,
+    removeRelease,
+    updateTotalRelease,
+    create, searchByName, update, remove, show, verifyUser, createUser }
 }

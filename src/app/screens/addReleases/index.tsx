@@ -1,62 +1,95 @@
-import InputNewEntry from "@/components/screenAddReleases/InputSingIn";
+import InputSelect from "@/components/screenAddReleases/InputSelect";
+import InputNewEntry from "@/components/screenAddReleases/InputNewEntry";
 import TitleReleases from "@/components/screenAddReleases/TitleReleases";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import InputDate from "@/components/screenAddReleases/InputDate";
+import { useProductDatabase } from "@/database/useProductDatabase";
 
 function AddReleases(){
-  const [nameEntry, setNameEntry] = useState('')
-  const [valueEntry, setValueEntry] = useState('')
-  const [dateEntry, setDateEntry] = useState('')
+  const [nameEntry, setNameEntry] = useState('');
+  const [selectCategory, setSelectCategory] = useState<string>('');
+  const [selectDate, setSelectDate] = useState<Date | null>(null);
+  const [valueEntry, setValueEntry] = useState('');
 
-  const handleSaveEntry = () =>{
-    const data = [
-      {
-        id: 1,
-        description: nameEntry,
-        price: valueEntry,
-        date: dateEntry
-      }
-    ];
+  const releasesDatabase = useProductDatabase()
+  valueEntry.replace(',', '.')
+  let formattedDate = ''
+  let value = Number(valueEntry);
+
+  if(selectDate != null){
+    formattedDate = selectDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
   };
 
+  const dataCategory = (select: string) => {
+    setSelectCategory(select)
+  };
+
+  const dataDay = (date: Date) => {
+    setSelectDate(date)
+  }
+
+  function soma(){
+        update()
+        handleSaveEntry()
+  }
+
+  async function update() {
+    try {
+      const response = await releasesDatabase.updateTotalRelease(value, selectCategory)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function handleSaveEntry() {
+    try {
+      const response = await releasesDatabase.createRelease(
+        nameEntry,
+        formattedDate,
+        value,
+        selectCategory
+      )
+      alert("Compra registrada");
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return(
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <TitleReleases />
 
       <View style={styles.warraper}>
         <Ionicons style={styles.icon} name="bag-handle-outline"/>
         <Text style={styles.h1}>Adicionar um Novo Lançamento</Text>
 
-
         <Text style={styles.label}>Nome do lançamento:</Text>
         <InputNewEntry
-          placeholder="Ex: Digite o nome da compra..."
+          placeholder="Ex: Hamburguer"
+          maxLength={12}
           placeholderTextColor={'gray'}
           onChangeText={setNameEntry}
           value={nameEntry}
         />
         <Text style={styles.label}>Valor R$:</Text>
         <InputNewEntry
-          placeholder="Ex: Digite o valor da compra..."
+          placeholder="Ex: 0.00"
           placeholderTextColor={'gray'}
           onChangeText={setValueEntry}
           value={valueEntry}
           keyboardType="numeric"
         />
         <Text style={styles.label}>Data:</Text>
-        <InputNewEntry
-          placeholder="Ex: xx/xx/xxxx"
-          placeholderTextColor={'gray'}
-          onChangeText={setDateEntry}
-          value={dateEntry}
-          keyboardType="numeric"
-          dataDetectorTypes="calendarEvent"
-        />
+        <InputDate propsDate={dataDay}/>
+
+        <Text style={styles.label}>Categoria:</Text>
+        <InputSelect props={dataCategory}/>
 
         <Text style={styles.fake}></Text>
-      </View>
+        </View>
 
       <View style={styles.btns}>
         <TouchableOpacity
@@ -68,13 +101,13 @@ function AddReleases(){
 
         <TouchableOpacity
           style={styles.buttonTwo}
-          onPress={handleSaveEntry}
+          onPress={soma}
         >
           <Ionicons name="checkmark-circle" size={24} color="white" />
           <Text style={styles.btnText}>Salvar</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   )
 }
 
@@ -110,8 +143,8 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    fontSize: 20,
-    marginVertical: 20,
+    fontSize: 17,
+    marginVertical: 10,
     color: 'white',
     margin: 20,
   },
