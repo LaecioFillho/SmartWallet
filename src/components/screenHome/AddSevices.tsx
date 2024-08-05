@@ -26,7 +26,9 @@ function AddServices(){
         </View>
 
         <View style={styles.p}>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => router.navigate("/screens/balance")}>
             <FontAwesome6 style={styles.btnText} name='money-bill-trend-up' />
           </TouchableOpacity>
           <Text style={styles.descBtn}>Atualizar</Text>

@@ -6,15 +6,20 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native
 
 function ListEntries(){
   let display = false
+  let cont = 0
   const releasesDataBase = useProductDatabase();
 
   //Função de alterar o botão de editar
   const [edit, setEdit] = useState(styles.none)
   const [buttonEdit, setButtonEdit] = useState('pen-to-square')
 
-//Função de receber os dados do banco
+  //Função de receber os dados do banco
   const [releaseas, setReleaseas] = useState<Releases[]>([]);
   const [search, setSearch] = useState("");
+
+  releaseas.map((index) => {
+    cont += index.value
+  })
 
   function handleEdit(){
     if(display == false){
@@ -84,6 +89,8 @@ function ListEntries(){
               onPress={() => remove(item.id)}/>
           </View>
         }/>
+
+        <Text>{cont}</Text>
 
       <TouchableOpacity
         style={styles.btn}
