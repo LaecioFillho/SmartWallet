@@ -33,7 +33,7 @@ function ListCategory(){
   async function handleSave() {
     try {
       const response = await categoryDataBase.createCategory(dataCategory)
-      alert("Categoria:"+ dataCategory +", cadastrada com sucesso!")
+      alert("Categoria: "+ dataCategory +" cadastrada com sucesso!")
       list();
       closeAddCategory();
       setEdit(styles.none);

@@ -89,8 +89,10 @@ function ListEntries(){
               onPress={() => remove(item.id)}/>
           </View>
         }/>
-
-        <Text>{cont}</Text>
+        <View style={styles.containerReleases}>
+          <Text style={styles.textSoma}>Total</Text>
+          <Text style={styles.textSoma}>R$ {cont.toFixed(2)}</Text>
+        </View>
 
       <TouchableOpacity
         style={styles.btn}
@@ -174,6 +176,12 @@ const styles = StyleSheet.create({
   textReleases: {
     fontSize: 16,
     color: 'white',
+  },
+
+  textSoma:{
+    color: 'white',
+    fontSize: 18,
+    paddingTop: 5,
   },
 
   btn: {

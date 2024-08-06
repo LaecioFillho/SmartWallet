@@ -15,7 +15,7 @@ function Graphics(){
 
   return(
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
-      <PieChart style={{height: 170, width: 170}} data={pieData}>
+      <PieChart style={{height: 170, width: 160}} data={pieData}>
       </PieChart>
     </View>
   );

@@ -28,5 +28,11 @@ export async function initializeDatabase(database: SQLiteDatabase) {
       total DECIMAL(10, 2)
     );
 
+
+    CREATE TABLE IF NOT EXISTS BalanceWallet (
+      id INTEGER,
+      value DECIMAL(10, 2) NOT NULL
+    );
+
   `)
 }

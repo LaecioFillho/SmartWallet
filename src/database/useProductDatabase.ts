@@ -27,6 +27,11 @@ export type Releases = {
   total: number
 }
 
+export type balance = {
+  id: number
+  value: number
+}
+
 export function useProductDatabase() {
   const database = useSQLiteContext()
 
@@ -124,6 +129,49 @@ export function useProductDatabase() {
     }
   }
 
+//Registro Saldo
+async function saveBalance(id: number, value: number) {
+  const statement = await database.prepareAsync(
+    "INSERT INTO BalanceWallet (id, value) VALUES ($id, $value)"
+  )
+  try {
+    const result = await statement.executeAsync({
+      $id: id,
+      $value: value
+    })
+  } catch (error) {
+    throw error
+  } finally {
+    await statement.finalizeAsync()
+  }
+}
+
+async function searchByBalance(id: number) {
+  try {
+    const query = "SELECT * FROM BalanceWallet WHERE id LIKE $id"
+    const response = await database.getAllAsync<balance>(
+      query,[`%${id}%`]
+    )
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+async function updateBalance(data: balance) {
+  const statement = await database.prepareAsync(
+    "UPDATE BalanceWallet SET value = $value WHERE id = $id"
+  )
+  try {
+    await statement.executeAsync({
+      $value: data.value,
+    })
+  } catch (error) {
+    throw error
+  } finally {
+    await statement.finalizeAsync()
+  }
+}
 
 
 
@@ -249,5 +297,8 @@ export function useProductDatabase() {
     searchByRelease,
     removeRelease,
     updateTotalRelease,
+    saveBalance,
+    searchByBalance,
+    updateBalance,
     create, searchByName, update, remove, show, verifyUser, createUser }
 }

@@ -53,6 +53,8 @@ function AddReleases(){
         selectCategory
       )
       alert("Compra registrada");
+      setNameEntry('')
+      setValueEntry('')
     } catch (error) {
       console.log(error)
     }
