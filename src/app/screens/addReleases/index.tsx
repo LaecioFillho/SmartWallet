@@ -3,10 +3,10 @@ import InputNewEntry from "@/components/screenAddReleases/InputNewEntry";
 import TitleReleases from "@/components/screenAddReleases/TitleReleases";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import InputDate from "@/components/screenAddReleases/InputDate";
-import { useProductDatabase } from "@/database/useProductDatabase";
+import { balance, createCategories, useProductDatabase } from "@/database/useProductDatabase";
 
 function AddReleases(){
   const [nameEntry, setNameEntry] = useState('');
@@ -14,11 +14,20 @@ function AddReleases(){
   const [selectDate, setSelectDate] = useState<Date | null>(null);
   const [valueEntry, setValueEntry] = useState('');
 
+  const [balanceShow, setBalanceShow] = useState<balance[]>([]);
+  const [search, setSearch] = useState(selectCategory);
+  const [releaseas, setReleaseas] = useState<createCategories[]>([]);
+  const [id, setId] = useState(0);
+
   const releasesDatabase = useProductDatabase()
   valueEntry.replace(',', '.')
   let formattedDate = ''
   let value = Number(valueEntry);
+  let show = 0
+  let balance = 0
+  let totalCategory = 0
 
+  // Área de conversões.
   if(selectDate != null){
     formattedDate = selectDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
   };
@@ -31,14 +40,72 @@ function AddReleases(){
     setSelectDate(date)
   }
 
+  balanceShow.map( index => {
+    show = index.value
+  })
+  balance = show - value
+
+  releaseas.map(index => {
+    if(index.description === selectCategory){
+      totalCategory = index.total
+    }
+  })
+
+
+  // Áreas de adicionar, buscar e alterar no banco de dados.
   function soma(){
-        update()
-        handleSaveEntry()
+    handleSaveEntry()
+    list()
+    listTotalCategory
+    update()
+    updateBalance()
   }
 
-  async function update() {
+  async function updateBalance() {
+    let value = balance
     try {
-      const response = await releasesDatabase.updateTotalRelease(value, selectCategory)
+      const response = await releasesDatabase.updateBalance({
+        id,
+        value})
+    } catch (error) {
+      console.log(error)
+    }
+    list()
+  }
+
+  async function list() {
+    try {
+      const response = await releasesDatabase.searchByBalance(id)
+      setBalanceShow(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    list()
+  }, [id])
+
+  async function listTotalCategory() {
+    try {
+      const response = await releasesDatabase.searchBCategory(search)
+      setReleaseas(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    listTotalCategory()
+  }, [search])
+
+  async function update() {
+    let total = totalCategory + value
+    let description = selectCategory
+    try {
+      const response = await releasesDatabase.updateTotalRelease({
+        total,
+        description})
     } catch (error) {
       console.log(error)
     }
@@ -52,7 +119,7 @@ function AddReleases(){
         value,
         selectCategory
       )
-      alert("Compra registrada");
+      alert("Lançamento registrado!");
       setNameEntry('')
       setValueEntry('')
     } catch (error) {
@@ -82,7 +149,7 @@ function AddReleases(){
           placeholderTextColor={'gray'}
           onChangeText={setValueEntry}
           value={valueEntry}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
         <Text style={styles.label}>Data:</Text>
         <InputDate propsDate={dataDay}/>

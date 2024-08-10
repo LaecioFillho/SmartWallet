@@ -2,21 +2,11 @@ import { type SQLiteDatabase } from "expo-sqlite"
 
 export async function initializeDatabase(database: SQLiteDatabase) {
   await database.execAsync(`
-    CREATE TABLE IF NOT EXISTS products (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      quantity INTEGER NOT NULL
-    );
 
     CREATE TABLE IF NOT EXISTS RegisterUser (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       email TEXT NOT NULL,
       password TEXT NOT NULL
-    );
-
-    CREATE TABLE IF NOT EXISTS RegisterCategory (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      description TEXT NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS Releases (
@@ -32,6 +22,13 @@ export async function initializeDatabase(database: SQLiteDatabase) {
     CREATE TABLE IF NOT EXISTS BalanceWallet (
       id INTEGER,
       value DECIMAL(10, 2) NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS RegisterCategory (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      description TEXT NOT NULL,
+      total DECIMAL(10, 2),
+      color TEXT NOT NULL
     );
 
   `)

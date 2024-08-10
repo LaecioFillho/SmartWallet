@@ -17,6 +17,12 @@ function ListCategory(){
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<createCategories[]>([]);
 
+  const [color, setColor] = useState('white')
+
+  function colors(cor: string){
+    setColor(cor)
+  }
+
   function handleEdit(){
     if(display == true){
       setEdit(styles.iconsEdit);
@@ -31,9 +37,10 @@ function ListCategory(){
   };
 
   async function handleSave() {
+    let total = 0
     try {
-      const response = await categoryDataBase.createCategory(dataCategory)
-      alert("Categoria: "+ dataCategory +" cadastrada com sucesso!")
+      const response = await categoryDataBase.createCategory(dataCategory, total, color)
+      alert("Categoria: "+ dataCategory +" cadastrada!")
       list();
       closeAddCategory();
       setEdit(styles.none);
@@ -85,6 +92,17 @@ function ListCategory(){
           keyExtractor={(item) => String(item.id)}
           renderItem={({item}) =>
             <View style={styles.h2}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: item.color,
+                  borderRadius: 80,
+                  width: 25,
+                  height: 25,
+                  marginRight: 10,
+                  position: 'absolute',
+                  left: 30,
+                  top: 10,
+                  }}/>
               <Text style={styles.textCate}>
                 {item.description}
               </Text>
@@ -97,12 +115,31 @@ function ListCategory(){
 
         <View style={addCategories}>
           <Text
-            style={{color:'white', fontSize: 18, margin: 10, textAlign: 'center'}}>Nova Categoria
+            style={{color:'white', fontSize: 18, margin: 10, textAlign: 'center'}}>
+              Nova Categoria
           </Text>
           <InputAddCatgory
             onChangeText={setDataCategory}
             value={dataCategory}/>
-          <Text style={styles.space}></Text>
+          <Text style={styles.space}> Escolha uma cor</Text>
+
+          <View style={styles.colorsRow}>
+            <TouchableOpacity
+              style={styles.btnColors} onPress={() => colors('purple')} />
+            <TouchableOpacity
+              style={styles.btnColors1} onPress={() => colors('#f33fc3')} />
+            <TouchableOpacity
+              style={styles.btnColors2} onPress={() => colors('blue')} />
+            <TouchableOpacity
+              style={styles.btnColors3} onPress={() => colors('red')} />
+            <TouchableOpacity
+              style={styles.btnColors4} onPress={() => colors('yellow')} />
+            <TouchableOpacity
+              style={styles.btnColors5} onPress={() => colors('gray')} />
+            <TouchableOpacity
+              style={styles.btnColors6} onPress={() => colors('orange')} />
+          </View>
+
           <TouchableOpacity
             style={styles.btnAddCetegories}
             onPress={handleSave}>
@@ -197,12 +234,15 @@ const styles = StyleSheet.create({
     top: 200,
     borderRadius: 10,
     padding: 10,
-    height: 250,
     width: 300,
   },
 
   space:{
     marginTop: 10,
+    marginBottom: 5,
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'center',
   },
 
   btnAddCetegories:{
@@ -214,6 +254,62 @@ const styles = StyleSheet.create({
     margin: 5,
     alignItems: 'center',
     alignSelf: 'center',
+  },
+
+  colorsRow:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 10
+  },
+
+  btnColors:{
+    backgroundColor: 'purple',
+    borderRadius: 80,
+    width: 30,
+    height: 30,
+    marginBottom: 10,
+  },
+  btnColors1:{
+    backgroundColor: '#f33fc3',
+    borderRadius: 80,
+    width: 30,
+    height: 30,
+    marginBottom: 10,
+  },
+  btnColors2:{
+    backgroundColor: 'blue',
+    borderRadius: 80,
+    width: 30,
+    height: 30,
+    marginBottom: 10,
+  },
+  btnColors3:{
+    backgroundColor: 'red',
+    borderRadius: 80,
+    width: 30,
+    height: 30,
+    marginBottom: 10,
+  },
+  btnColors4:{
+    backgroundColor: 'yellow',
+    borderRadius: 80,
+    width: 30,
+    height: 30,
+    marginBottom: 10,
+  },
+  btnColors5:{
+    backgroundColor: 'gray',
+    borderRadius: 80,
+    width: 30,
+    height: 30,
+    marginBottom: 10,
+  },
+  btnColors6:{
+    backgroundColor: 'orange',
+    borderRadius: 80,
+    width: 30,
+    height: 30,
+    marginBottom: 10,
   },
 
   btn: {

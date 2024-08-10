@@ -16,6 +16,7 @@ export type createCategories = {
   id: number
   description: string
   total: number
+  color: string
 }
 
 export type Releases = {
@@ -36,13 +37,15 @@ export function useProductDatabase() {
   const database = useSQLiteContext()
 
 //Registro de Categorias
-  async function createCategory(description: string) {
+  async function createCategory(description: string, total: number, color: string) {
     const statement = await database.prepareAsync(
-      "INSERT INTO RegisterCategory (description) VALUES ($description)"
+      "INSERT INTO RegisterCategory (description, total, color) VALUES ($description, $total, $color)"
     )
     try {
       const result = await statement.executeAsync({
-        $description: description
+        $description: description,
+        $total: total,
+        $color: color
       })
       const insertedRowId = result.lastInsertRowId.toLocaleString()
       return { insertedRowId }
@@ -74,12 +77,15 @@ export function useProductDatabase() {
     }
   }
 
-  async function updateTotalRelease(total: number, description: string) {
+  async function updateTotalRelease(data:  Omit<createCategories, "id">) {
     const statement = await database.prepareAsync(
       "UPDATE RegisterCategory SET total = $total WHERE description = $description"
     )
     try {
-      await statement.executeAsync({$total: total,})
+      await statement.executeAsync({
+        $description: data.description,
+        $total: data.total,
+      })
     } catch (error) {
       throw error
     } finally {
@@ -164,6 +170,7 @@ async function updateBalance(data: balance) {
   )
   try {
     await statement.executeAsync({
+      $id: data.id,
       $value: data.value,
     })
   } catch (error) {
@@ -177,27 +184,6 @@ async function updateBalance(data: balance) {
 
 
 
-
-  async function create(data: Omit<ProductDatabase, "id">) {
-    const statement = await database.prepareAsync(
-      "INSERT INTO products (name, quantity) VALUES ($name, $quantity)"
-    )
-
-    try {
-      const result = await statement.executeAsync({
-        $name: data.name,
-        $quantity: data.quantity,
-      })
-
-      const insertedRowId = result.lastInsertRowId.toLocaleString()
-
-      return { insertedRowId }
-    } catch (error) {
-      throw error
-    } finally {
-      await statement.finalizeAsync()
-    }
-  }
 
   async function createUser(data: Omit<userWallet, "id">) {
     const statement = await database.prepareAsync(
@@ -234,47 +220,6 @@ async function updateBalance(data: balance) {
     }
   }
 
-  async function searchByName(name: string) {
-    try {
-      const query = "SELECT * FROM products WHERE name LIKE ?"
-
-      const response = await database.getAllAsync<ProductDatabase>(
-        query,[
-        `%${name}%
-        `]
-      )
-      return response
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function update(data: ProductDatabase) {
-    const statement = await database.prepareAsync(
-      "UPDATE products SET name = $name, quantity = $quantity WHERE id = $id"
-    )
-
-    try {
-      await statement.executeAsync({
-        $id: data.id,
-        $name: data.name,
-        $quantity: data.quantity,
-      })
-    } catch (error) {
-      throw error
-    } finally {
-      await statement.finalizeAsync()
-    }
-  }
-
-  async function remove(id: number) {
-    try {
-      await database.execAsync("DELETE FROM products WHERE id = " + id)
-    } catch (error) {
-      throw error
-    }
-  }
-
   async function show(id: number) {
     try {
       const query = "SELECT * FROM products WHERE id = ?"
@@ -299,6 +244,5 @@ async function updateBalance(data: balance) {
     updateTotalRelease,
     saveBalance,
     searchByBalance,
-    updateBalance,
-    create, searchByName, update, remove, show, verifyUser, createUser }
+    updateBalance, show, verifyUser, createUser }
 }

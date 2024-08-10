@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
 
   textSelect:{
-    marginLeft: 110,
+    marginLeft: 120,
     fontSize: 18,
     color: 'white',
   },
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
 
   boxSelect: {
-    height: 100,
+    height: 140,
     borderWidth: 1,
     borderColor: 'white',
     marginHorizontal: 20,

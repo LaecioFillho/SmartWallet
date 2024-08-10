@@ -35,9 +35,9 @@ function CategoryList(){
               <FontAwesome
                 style={styles.icon}
                 name="circle"
-                color={('#' + ((Math.random() * 0xffffff) << 0).toString(8) + '000000').slice(0, 4)}/> - {item.description}
+                color={item.color}/> - {item.description}
             </Text>
-            <Text style={styles.p}>- R$ {item.total}</Text>
+            <Text style={styles.p}>- R$ {item.total.toFixed(2)}</Text>
           </ View>}
       />
     </View>
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   categories: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   p: {
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   },
 
   icon:{
-    fontSize: 18,
+    fontSize: 22,
   },
 });
 

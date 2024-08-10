@@ -54,6 +54,8 @@ function ListEntries(){
     }
   }
 
+  //Pesquisar: <Input placeholder="Pesquisar" onChangeText={setSearch} />
+
   return(
     <View style={styles.container}>
       <FontAwesome5 style={styles.icon} name='clipboard-list' />
@@ -67,7 +69,7 @@ function ListEntries(){
             <View>
               <View style={styles.containerReleases}>
                 <Text style={styles.textReleases}>
-                  Descrição: {item.description}
+                  Descrição: "{item.description}" 
                 </Text>
                 <Text style={styles.textReleases}>
                   Data: {item.date}

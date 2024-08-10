@@ -5,6 +5,17 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 function AddServices(){
   return(
     <View style={styles.containerWarraper}>
+
+        <View style={styles.p}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => router.navigate("/screens/balance")}>
+            <FontAwesome6 style={styles.btnText} name='money-bill-trend-up' />
+          </TouchableOpacity>
+          <Text style={styles.descBtn}>Atualizar</Text>
+          <Text style={styles.descBtn}>saldo</Text>
+        </View>
+
         <View style={styles.p}>
           <TouchableOpacity
             style={styles.btn}
@@ -23,16 +34,6 @@ function AddServices(){
           </TouchableOpacity>
           <Text style={styles.descBtn}>Lista de</Text>
           <Text style={styles.descBtn}>gastos</Text>
-        </View>
-
-        <View style={styles.p}>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => router.navigate("/screens/balance")}>
-            <FontAwesome6 style={styles.btnText} name='money-bill-trend-up' />
-          </TouchableOpacity>
-          <Text style={styles.descBtn}>Atualizar</Text>
-          <Text style={styles.descBtn}>saldo</Text>
         </View>
 
         <View style={styles.p}>
