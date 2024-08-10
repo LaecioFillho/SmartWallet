@@ -77,14 +77,14 @@ export function useProductDatabase() {
     }
   }
 
-  async function updateTotalRelease(data:  Omit<createCategories, "id">) {
+  async function updateTotalRelease(total: number, description: string) {
     const statement = await database.prepareAsync(
       "UPDATE RegisterCategory SET total = $total WHERE description = $description"
     )
     try {
       await statement.executeAsync({
-        $description: data.description,
-        $total: data.total,
+        $description: description,
+        $total: total
       })
     } catch (error) {
       throw error
@@ -171,7 +171,7 @@ async function updateBalance(data: balance) {
   try {
     await statement.executeAsync({
       $id: data.id,
-      $value: data.value,
+      $value: data.value
     })
   } catch (error) {
     throw error

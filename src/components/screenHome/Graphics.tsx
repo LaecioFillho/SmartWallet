@@ -8,8 +8,7 @@ function Graphics(){
   const categoriesDataBase = useProductDatabase();
   const [releaseas, setReleaseas] = useState<createCategories[]>([]);
   const [search, setSearch] = useState("");
-  let data = [{}]
-  let color = []
+  let data = []
 
   async function list() {
     try {
@@ -25,21 +24,23 @@ function Graphics(){
   }, [search]);
 
   releaseas.map(index => {
-
     if(index.total != null){
-      data.push(index.total)
-      color.push(index.color)
+      data.push({id: index.id, value: index.total, color: index.color})
     }else{
-      data = [10, 10, 10, 10]
+      data = [
+        {id: 1, value: 1, color: 'white'},
+        {id: 2, value: 1, color: 'white'},
+        {id: 3, value: 1, color: 'white'},
+        {id: 4, value: 1, color: 'white'}
+      ]
     }
   });
 
-  const pieData = data.map((value, description) => ({
-    value,
-    key: `${value} - ${description}`,
-    svg: {
-      fill: ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 4)
-    },
+  const pieData = data.map((item) => ({
+    key: item.id,
+    value: item.value,
+    svg: {fill: item.color},
+    arc: { outerRadius: '100%', innerRadius: '60%',}
   }));
 
   return(

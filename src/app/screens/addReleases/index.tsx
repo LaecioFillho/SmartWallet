@@ -54,11 +54,15 @@ function AddReleases(){
 
   // Áreas de adicionar, buscar e alterar no banco de dados.
   function soma(){
-    handleSaveEntry()
-    list()
-    listTotalCategory
-    update()
-    updateBalance()
+    if (show != 0) {
+      handleSaveEntry()
+      list()
+      listTotalCategory
+      update()
+      updateBalance()
+    } else {
+      alert("Saldo Insuficiente!")
+    }
   }
 
   async function updateBalance() {
@@ -103,9 +107,9 @@ function AddReleases(){
     let total = totalCategory + value
     let description = selectCategory
     try {
-      const response = await releasesDatabase.updateTotalRelease({
+      const response = await releasesDatabase.updateTotalRelease(
         total,
-        description})
+        description)
     } catch (error) {
       console.log(error)
     }

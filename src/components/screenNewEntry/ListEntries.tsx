@@ -1,4 +1,4 @@
-import { Releases, useProductDatabase } from "@/database/useProductDatabase";
+import { balance, createCategories, Releases, useProductDatabase } from "@/database/useProductDatabase";
 import { Entypo, FontAwesome5, FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
@@ -17,9 +17,11 @@ function ListEntries(){
   const [releaseas, setReleaseas] = useState<Releases[]>([]);
   const [search, setSearch] = useState("");
 
+  const [selectCategory, setSelectCategory] = useState<string>('');
+
   releaseas.map((index) => {
     cont += index.value
-  })
+  });
 
   function handleEdit(){
     if(display == false){
@@ -39,27 +41,27 @@ function ListEntries(){
     } catch (error) {
       console.log(error)
     }
-  }
+  };
 
   useEffect(() => {
     list()
-  }, [search])
+  }, [search]);
 
-  async function remove(id: number){
+  async function remove(id: number, value: number, description: string){
     try {
       await releasesDataBase.removeRelease(id)
       await list()
     } catch (error) {
       console.log(error)
     }
-  }
+  };
 
   //Pesquisar: <Input placeholder="Pesquisar" onChangeText={setSearch} />
 
   return(
     <View style={styles.container}>
       <FontAwesome5 style={styles.icon} name='clipboard-list' />
-      <Text style={styles.h1}>Todas os Gastos</Text>
+      <Text style={styles.h1}>Todas os Lançamentos</Text>
 
       <FlatList
         data={releaseas}
@@ -69,7 +71,7 @@ function ListEntries(){
             <View>
               <View style={styles.containerReleases}>
                 <Text style={styles.textReleases}>
-                  Descrição: "{item.description}" 
+                  Descrição: "{item.description}"
                 </Text>
                 <Text style={styles.textReleases}>
                   Data: {item.date}
@@ -88,7 +90,9 @@ function ListEntries(){
             <Entypo
               style={edit}
               name="trash"
-              onPress={() => remove(item.id)}/>
+              onPress={() => {
+                remove(item.id, item.value, item.description)
+                setSelectCategory(item.description)}}/>
           </View>
         }/>
         <View style={styles.containerReleases}>
