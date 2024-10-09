@@ -40,13 +40,15 @@ function Graphics(){
     key: item.id,
     value: item.value,
     svg: {fill: item.color},
-    arc: { outerRadius: '100%', innerRadius: '60%',}
+    arc: { outerRadius: '100%', innerRadius: '60%',},
   }));
 
   return(
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
-      <PieChart style={{height: 170, width: 160}} data={pieData}>
-        <Text></Text>
+      <PieChart
+        style={{height: 170, width: 160}}
+        data={pieData}
+      >
       </PieChart>
     </View>
   );

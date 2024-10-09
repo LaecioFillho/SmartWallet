@@ -125,19 +125,19 @@ function ListCategory(){
 
           <View style={styles.colorsRow}>
             <TouchableOpacity
-              style={styles.btnColors} onPress={() => colors('purple')} />
+              style={styles.btnColors} onPress={() => colors('purple')}/>
             <TouchableOpacity
-              style={styles.btnColors1} onPress={() => colors('#f33fc3')} />
+              style={styles.btnColors1} onPress={() => colors('#f33fc3')}/>
             <TouchableOpacity
-              style={styles.btnColors2} onPress={() => colors('blue')} />
+              style={styles.btnColors2} onPress={() => colors('blue')}/>
             <TouchableOpacity
-              style={styles.btnColors3} onPress={() => colors('red')} />
+              style={styles.btnColors3} onPress={() => colors('red')}/>
             <TouchableOpacity
-              style={styles.btnColors4} onPress={() => colors('yellow')} />
+              style={styles.btnColors4} onPress={() => colors('yellow')}/>
             <TouchableOpacity
-              style={styles.btnColors5} onPress={() => colors('gray')} />
+              style={styles.btnColors5} onPress={() => colors('gray')}/>
             <TouchableOpacity
-              style={styles.btnColors6} onPress={() => colors('orange')} />
+              style={styles.btnColors6} onPress={() => colors('orange')}/>
           </View>
 
           <TouchableOpacity

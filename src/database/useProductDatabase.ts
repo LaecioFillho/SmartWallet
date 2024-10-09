@@ -33,6 +33,11 @@ export type balance = {
   value: number
 }
 
+export type TotalRelease = {
+  total: number
+  description: string
+}
+
 export function useProductDatabase() {
   const database = useSQLiteContext()
 

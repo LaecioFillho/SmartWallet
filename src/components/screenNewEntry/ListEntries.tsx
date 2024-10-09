@@ -7,6 +7,8 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native
 function ListEntries(){
   let display = false
   let cont = 0
+  let balance = 0
+  let total = 0 //Total da Categoria!
   const releasesDataBase = useProductDatabase();
 
   //Função de alterar o botão de editar
@@ -15,13 +17,21 @@ function ListEntries(){
 
   //Função de receber os dados do banco
   const [releaseas, setReleaseas] = useState<Releases[]>([]);
+  const [releaseasBalance, setReleaseasBalance] = useState<balance[]>([]);
+  const [totalRelease, setTotalRelease] = useState<createCategories[]>([]);
   const [search, setSearch] = useState("");
+  const [searchBalance, setSearchBalance] = useState("");
+  const [searchRelease, setSearchRelease] = useState("");
 
-  const [selectCategory, setSelectCategory] = useState<string>('');
+  const [selectCategory, setSelectCategory] = useState("");
 
   releaseas.map((index) => {
     cont += index.value
   });
+
+  releaseasBalance.map((index) => {
+    balance = index.value
+  })
 
   function handleEdit(){
     if(display == false){
@@ -47,10 +57,51 @@ function ListEntries(){
     list()
   }, [search]);
 
+  async function listBalance() {
+    try {
+      const response = await releasesDataBase.searchByBalance(searchBalance)
+      setReleaseasBalance(response)
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  useEffect(() => {
+    listBalance()
+  }, [search]);
+
+  async function listTotalRelease() {
+    try {
+      const response = await releasesDataBase.searchBCategory(searchRelease)
+      setTotalRelease(response)
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  useEffect(() => {
+    listTotalRelease()
+  }, [searchRelease]);
+
   async function remove(id: number, value: number, description: string){
+    totalRelease.map(index => {
+      if(index.description === description){
+        total = index.total
+      }
+    })
+    //Atualizar Saldo após Lançamento deletado!
+    total = total - value
+    balance = balance + value
+    value = balance
+
     try {
       await releasesDataBase.removeRelease(id)
+      id = 0
+      await releasesDataBase.updateBalance({id, value})
+      await releasesDataBase.updateTotalRelease(total, description)
       await list()
+      await listBalance()
+      await listTotalRelease()
     } catch (error) {
       console.log(error)
     }
@@ -91,8 +142,8 @@ function ListEntries(){
               style={edit}
               name="trash"
               onPress={() => {
-                remove(item.id, item.value, item.description)
-                setSelectCategory(item.description)}}/>
+                setSelectCategory(item.category)
+                remove(item.id, item.value, item.category)}}/>
           </View>
         }/>
         <View style={styles.containerReleases}>

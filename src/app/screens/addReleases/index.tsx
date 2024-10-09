@@ -51,13 +51,12 @@ function AddReleases(){
     }
   })
 
-
   // Áreas de adicionar, buscar e alterar no banco de dados.
   function soma(){
     if (show != 0) {
       handleSaveEntry()
       list()
-      listTotalCategory
+      listTotalCategory()
       update()
       updateBalance()
     } else {
